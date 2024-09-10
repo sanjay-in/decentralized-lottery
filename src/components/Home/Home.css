@@ -9,4 +9,23 @@
   translate: calc(-50%);
   background-clip: text;
   color: transparent;
+  font-style: italic;
+}
+
+.home-header > span {
+  background: linear-gradient(to top, #dba50379 0%, #ffcf40bf 52%, #ffbf00a6 100%);
+  background-clip: text;
+  color: transparent;
+  margin-right: 0.5rem;
+  font-style: italic;
+}
+
+.confetti-background {
+  height: 100vh;
+  width: 40vw;
+  position: absolute;
+  top: 0;
+  left: 0%;
+  opacity: 20%;
+  z-index: 10;
 }
