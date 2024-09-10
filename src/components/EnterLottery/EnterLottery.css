@@ -1,0 +1,146 @@
+.lottery {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem;
+  border-radius: 2.5rem;
+  background-color: rgba(18, 18, 18, 0.491);
+  border: 2px solid rgba(255, 217, 0, 0.752);
+  box-shadow: 0 0 10px rgba(255, 217, 0, 0.731);
+}
+
+.lottery-text {
+  color: aqua;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.lottery-amount {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  background-color: rgba(43, 43, 43, 0.64);
+  border-radius: 10px;
+  width: inherit;
+}
+
+.lottery-amount-symbol {
+  color: aqua;
+  font-size: 3rem;
+  margin: auto 1rem;
+  font-weight: 700;
+  background: repeating-linear-gradient(
+    to top,
+    #a2682a 0%,
+    #be8c3c 8%,
+    #be8c3c 18%,
+    #d3b15f 27%,
+    #faf0a0 35%,
+    #ffffc2 40%,
+    #faf0a0 50%,
+    #d3b15f 58%,
+    #be8c3c 67%,
+    #b17b32 77%,
+    #bb8332 83%,
+    #d4a245 88%,
+    #e1b453 93%,
+    #a4692a 100%
+  );
+  background-clip: text;
+  color: transparent;
+}
+
+.lottery-amount-value {
+  display: inline-block;
+  background-color: transparent;
+  border: none;
+  margin: 0 1rem;
+  background: repeating-linear-gradient(
+    to top,
+    #a2682a 0%,
+    #be8c3c 8%,
+    #be8c3c 18%,
+    #d3b15f 27%,
+    #faf0a0 35%,
+    #ffffc2 40%,
+    #faf0a0 50%,
+    #d3b15f 58%,
+    #be8c3c 67%,
+    #b17b32 77%,
+    #bb8332 83%,
+    #d4a245 88%,
+    #e1b453 93%,
+    #a4692a 100%
+  );
+  background-clip: text;
+  color: transparent;
+  font-size: 3rem;
+  font-weight: 700;
+  width: 26rem;
+  /* max-width: 15rem; */
+}
+
+.lottery-amount-value:focus {
+  outline: none;
+}
+
+.lottery-amount-value[type="number"] {
+  appearance: textfield;
+}
+
+.lottery-amount-value::placeholder {
+  color: rgba(0, 255, 255, 0.097);
+}
+
+.lottery-amount-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem auto;
+  color: rgba(0, 255, 255, 0.51);
+  gap: 0.5rem;
+  font-style: italic;
+}
+
+#lottery-btn {
+  background-image: repeating-linear-gradient(
+    to right,
+    #a2682a 0%,
+    #be8c3c 8%,
+    #be8c3c 18%,
+    #d3b15f 27%,
+    #faf0a0 35%,
+    #ffffc2 40%,
+    #faf0a0 50%,
+    #d3b15f 58%,
+    #be8c3c 67%,
+    #b17b32 77%,
+    #bb8332 83%,
+    #d4a245 88%,
+    #e1b453 93%,
+    #a4692a 100%
+  );
+  margin: 2rem auto 0rem;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  border-radius: 10px;
+  display: block;
+  width: 10rem;
+  font-weight: 600;
+  border: none;
+}
+
+#lottery-btn:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.lottery-btn-txt {
+  color: rgba(0, 0, 0, 0.845);
+  text-shadow: -1px 1px 1px white;
+  font-weight: 800;
+}
