@@ -1,0 +1,12 @@
+.home-header {
+  background: linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%);
+  font-weight: 700;
+  font-size: 2rem;
+  text-transform: uppercase;
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  translate: calc(-50%);
+  background-clip: text;
+  color: transparent;
+}
