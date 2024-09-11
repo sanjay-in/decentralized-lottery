@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@chainlink/contracts": "^1.2.0",
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.7",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
     "@nomicfoundation/hardhat-ignition": "^0.15.5",
@@ -22,7 +23,7 @@
     "@typechain/hardhat": "^9.1.0",
     "@types/mocha": "^10.0.7",
     "bootstrap": "^5.3.3",
-    "chai": "^5.1.1",
+    "chai": "4.3.7",
     "ethereum-waffle": "^4.0.10",
     "ethers": "^6.13.2",
     "hardhat-deploy": "^0.12.4",
@@ -44,6 +45,9 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "hardhat": "^2.22.10",
+    "hardhat-gas-reporter": "^1.0.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2",
     "vite": "^5.4.1"
   }
 }
