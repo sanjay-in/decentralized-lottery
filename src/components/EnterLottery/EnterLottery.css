@@ -90,8 +90,45 @@
   appearance: textfield;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* .lottery-amount-value::-webkit-input-placeholder::placeholder {
+  color: rgba(0, 255, 255, 0.097) !important;
+}
+
+.lottery-amount-value::-moz-placeholder {
+  color: rgba(0, 255, 255, 0.097) !important;
+}
+
+.lottery-amount-value::-ms-placeholder {
+  color: rgba(0, 255, 255, 0.097) !important;
+} */
+
 .lottery-amount-value::placeholder {
-  color: rgba(0, 255, 255, 0.097);
+  opacity: 0.5;
+  background: repeating-linear-gradient(
+    to top,
+    #a2682a 0%,
+    #be8c3c 8%,
+    #be8c3c 18%,
+    #d3b15f 27%,
+    #faf0a0 35%,
+    #ffffc2 40%,
+    #faf0a0 50%,
+    #d3b15f 58%,
+    #be8c3c 67%,
+    #b17b32 77%,
+    #bb8332 83%,
+    #d4a245 88%,
+    #e1b453 93%,
+    #a4692a 100%
+  );
+  color: transparent;
+  background-clip: text;
 }
 
 .lottery-amount-info,
