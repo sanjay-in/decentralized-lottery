@@ -1,20 +1,75 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import contractAddress from "../../constants/contractAddress.json";
+import ABI from "../../constants/ABI.json";
 import "./EnterLottery.css";
+import { Contract, ethers } from "ethers";
+
+let lotteryContract;
+const [ethAmount, setEthAmount] = useState();
+const [recentWinner, setRecentWinner] = useState("");
+
+const setLotteryContract = async () => {
+  if (window.ethereum) {
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      lotteryContract = new Contract(contractAddress, ABI, signer);
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+  }
+};
+
+const updateRecentWinner = async () => {
+  try {
+    const recentWinner = await lotteryContract.getWinnersList();
+    setRecentWinner(recentWinner);
+  } catch {
+    console.log("Failed to update recent winner");
+  }
+};
+
+const enterLottery = async () => {
+  try {
+    await lotteryContract.enterLottery({ value: ethers.parseEther(ethAmount.toString()) });
+    console.log("Entered lottery");
+  } catch {
+    console.log("Failed to enter lottery");
+  }
+};
 
 const EnterLottery = () => {
+  useEffect(() => {
+    lotteryContract.once("WinnerSelected", () => {
+      updateRecentWinner();
+    });
+
+    setLotteryContract();
+  }, []);
   return (
     <div className="lottery">
       <p className="lottery-text">Enter the amount you need to give for lottery</p>
       <div className="lottery-amount">
-        <i class="fa fa-usd lottery-amount-symbol" aria-hidden="true"></i>
-        <input className="lottery-amount-value" type="number" placeholder="50" min={50} />
+        <div className="lottery-amount-symbol" aria-hidden="true">
+          ETH
+        </div>
+        <input
+          className="lottery-amount-value"
+          type="number"
+          placeholder="0.001"
+          step={0.001}
+          min={0.001}
+          value={ethAmount}
+          onChange={(e) => setEthAmount(e.target.value)}
+        />
       </div>
       <div className="lottery-amount-info">
         <i className="fa fa-info-circle" aria-hidden="true"></i>
-        <div className="lottery-amount-info-text">Minimum amount to enter raffle is $50</div>
+        <div className="lottery-amount-info-text">Minimum amount to enter raffle is 0.001 ETH</div>
       </div>
-      <Button id="lottery-btn">
+      <Button id="lottery-btn" onClick={enterLottery}>
         <span className="lottery-btn-txt">Enter</span>
       </Button>
     </div>

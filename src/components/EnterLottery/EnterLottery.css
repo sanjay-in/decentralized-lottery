@@ -3,9 +3,11 @@
   flex-direction: column;
   padding: 4rem;
   border-radius: 2.5rem;
-  background-color: rgba(18, 18, 18, 0.491);
+  background-color: rgb(27, 25, 43);
   border: 2px solid rgba(255, 217, 0, 0.752);
   box-shadow: 0 0 10px rgba(255, 217, 0, 0.731);
+  position: relative;
+  z-index: 100;
 }
 
 .lottery-text {
