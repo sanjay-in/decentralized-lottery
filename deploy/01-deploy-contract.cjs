@@ -7,7 +7,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const chainId = network.config.chainId;
   const keyHash = networkConfig[chainId]["keyHash"];
   const callbackGasLimit = networkConfig[chainId]["callbackGasLimit"];
-  const interval = 10;
+  const interval = networkConfig[chainId]["interval"];
   const minimumEntranceFee = ethers.parseEther("0.001");
 
   const { deployer } = await getNamedAccounts();
