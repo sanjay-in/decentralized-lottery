@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { Contract, ethers } from "ethers";
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
+import { toast, ToastContainer } from "react-toastify";
 import contractAddress from "../../constants/contractAddress.json";
 import ABI from "../../constants/ABI.json";
 import "./EnterLottery.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const EnterLottery = () => {
   let lotteryContract;
   const [ethAmount, setEthAmount] = useState();
   const [recentWinner, setRecentWinner] = useState("");
   const [copyClipboard, setCopyClipboard] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const setLotteryContract = async () => {
     if (window.ethereum) {
@@ -19,26 +22,41 @@ const EnterLottery = () => {
         lotteryContract = new Contract(contractAddress, ABI, signer);
       } catch (error) {
         console.log(error);
+        toastMessage("error", "Can't connect to smart contract");
       }
     } else {
+      toastMessage("error", "Unable to detect metamask");
     }
   };
 
   const updateRecentWinner = async () => {
     try {
+      if (!lotteryContract) {
+        await setLotteryContract();
+      }
       const recentWinner = await lotteryContract.getWinnersList();
       setRecentWinner(recentWinner);
-    } catch {
-      console.log("Failed to update recent winner");
+    } catch (error) {
+      console.log(error);
+      toastMessage("error", "Failed to update recent winner");
     }
   };
 
   const enterLottery = async () => {
+    validation();
+    setLoading(true);
     try {
-      await lotteryContract.enterLottery({ value: ethers.parseEther(ethAmount.toString()) });
-      console.log("Entered lottery");
-    } catch {
-      console.log("Failed to enter lottery");
+      if (!lotteryContract) {
+        await setLotteryContract();
+      }
+      const tx = await lotteryContract.enterLottery({ value: ethers.parseEther(ethAmount.toString()) });
+      await tx.wait();
+      toastMessage("success", "Thanks for being a participant!");
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      toastMessage("error", "Unable to enter lottery");
     }
   };
 
@@ -51,6 +69,35 @@ const EnterLottery = () => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(recentWinner);
     setCopyClipboard(true);
+  };
+
+  const validation = () => {
+    if (ethAmount < 0.001) {
+      toastMessage("error", "Please send 0.001 ETH or more to participate");
+      return;
+    }
+  };
+
+  const toastMessage = (type, text) => {
+    if (type == "error") {
+      toast.error(text, {
+        position: "top-center",
+        hideProgressBar: "true",
+        autoClose: 3000,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    } else {
+      {
+        toast.success(text, {
+          position: "top-center",
+          hideProgressBar: "true",
+          autoClose: 3000,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+      }
+    }
   };
 
   useEffect(() => {
@@ -96,9 +143,10 @@ const EnterLottery = () => {
           )}
         </div>
       </div>
-      <Button id="lottery-btn" onClick={enterLottery}>
-        <span className="lottery-btn-txt">Enter</span>
+      <Button id="lottery-btn" disabled={loading} onClick={enterLottery}>
+        <span className="lottery-btn-txt">{loading ? <Spinner className="lottery-loading-spinner" animation="border" /> : "Enter"}</span>
       </Button>
+      <ToastContainer />
     </div>
   );
 };
