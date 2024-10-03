@@ -241,3 +241,10 @@ input::-webkit-inner-spin-button {
   text-shadow: -1px 1px 1px white;
   font-weight: 800;
 }
+
+.lottery-loading-spinner {
+  max-height: 1.2rem;
+  max-width: 1.2rem;
+  color: rgba(0, 0, 0, 0.845);
+  text-shadow: -1px 1px 1px white;
+}
