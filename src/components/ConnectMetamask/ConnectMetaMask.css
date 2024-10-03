@@ -1,3 +1,11 @@
+.connect-metamask {
+  position: relative;
+  z-index: 100;
+}
 .connect-metamask-text {
-  color: ghostwhite;
+  color: rgba(0, 255, 255, 0.51);
+}
+
+.connect-metamask-btn {
+  cursor: pointer;
 }
