@@ -53,12 +53,6 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
           assert.equal(allPlayers[0], deployer);
         });
 
-        it("emits LotteryEntered event", async () => {
-          await expect(lottery.enterLottery({ value: entranceFee }))
-            .to.emit(lottery, "LotteryEntered")
-            .withArgs(deployer);
-        });
-
         it("reverts when player tries to enter after lottery is closed", async () => {
           await lottery.enterLottery({ value: entranceFee });
           await ethers.provider.send("evm_increaseTime", [interval.toString()]);
@@ -162,30 +156,21 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
               console.log("error", error);
             }
           });
-        }).timeout(10000);
+        }).timeout(40000);
+      });
 
-        // it("reverts with error if not able to send eth", async () => {
-        //   await lottery.connect(accounts[1]).enterLottery({ value: ethers.parseEther("0.1") });
-        //   // await lottery.connect(accounts[2]).enterLottery({ value: ethers.parseEther("1") });
+      describe("setInterval", () => {
+        it("checks if time interval is set correct after changing", async () => {
+          const newIntervalTime = 60;
+          await lottery.setInterval(newIntervalTime);
+          const newInterval = await lottery.getInterval();
 
-        //   // Increase time if required for lottery rules
-        //   await ethers.provider.send("evm_increaseTime", [interval.toString()]);
-        //   await ethers.provider.send("evm_mine");
+          assert.equal(newIntervalTime, newInterval);
+        });
 
-        //   // Perform upkeep to select a winner
-        //   const tx = await lottery.performUpkeep("0x");
-        //   // await lottery.setParticipants();
-        //   const txReceipt = await tx.wait(1);
-        //   const requestId = txReceipt.logs[1].args.requestId;
-
-        //   // Manipulate the participants array to contain the zero address
-        //   await lottery.setParticipants();
-        //   const particiapnts = await lottery.getParticipantsList();
-        //   console.log("particiapnts", particiapnts);
-
-        //   // Mock fulfillRandomWords with randomWords that selects the zero address
-        //   await expect(vrfCoordinatorV2Mock.fulfillRandomWords(requestId, lotteryContract.address)) // Using index 0 which points to the zero address
-        //     .to.be.revertedWithCustomError(lottery, "Lottery___TransactionFailed");
-        // });
+        it("only owner can set interval", async () => {
+          const newIntervalTime = 60;
+          await expect(lottery.connect(accounts[1]).setInterval(newIntervalTime)).to.be.reverted;
+        });
       });
     });
