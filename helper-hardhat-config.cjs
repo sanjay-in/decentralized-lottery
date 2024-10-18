@@ -6,15 +6,16 @@ const networkConfig = {
     keyHash: "0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae",
     callbackGasLimit: 90000,
     blockConfirmation: 1,
-    interval: 60, //1 min
+    interval: 10, //1 min
   },
   11155111: {
     name: "sepolia",
     keyHash: "0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae",
-    vrfCoodrinator: "0x9ddfaca8183c41ad55329bdeed9f6a8d53168b1b",
-    subscriptionId: 1061,
-    callbackGasLimit: 90000,
-    blockConfirmation: 900, //15 mins
+    vrfCoodrinator: "0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B",
+    subscriptionId: "24213741280473853611952645751814669774888017353766876722692976474077269646540",
+    callbackGasLimit: 2500000,
+    blockConfirmation: 3,
+    interval: 90, //15 mins
   },
 };
 
