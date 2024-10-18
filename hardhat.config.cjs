@@ -10,7 +10,15 @@ const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.24",
+  solidity: {
+    version: "0.8.24",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {
@@ -23,7 +31,7 @@ module.exports = {
       chainId: 11155111,
       url: SEPOLIA_RPC_URL,
       accounts: PRIVATE_KEY,
-      blockConfirmation: 6,
+      blockConfirmation: 3,
       saveDeployments: true,
     },
   },
@@ -31,6 +39,14 @@ module.exports = {
     apiKey: {
       sepolia: ETHERSCAN_API_KEY,
     },
+  },
+  gasReporter: {
+    enabled: true, // Set to true to enable the reporter
+    currency: "USD", // You can set the currency for gas cost
+    gasPrice: 20, // Optional: specify the gas price in gwei
+    outputFile: "gas-report.txt", // Output file for gas report
+    noColors: true, // Disable colors in the report
+    excludeContracts: ["VRFCoordinatorV2_5Mock"],
   },
   namedAccounts: {
     deployer: {
