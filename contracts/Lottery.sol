@@ -26,10 +26,9 @@ contract Lottery is VRFConsumerBaseV2Plus, AutomationCompatibleInterface {
     address private s_recentWinner;
     LotteryState public s_lotteryState = LotteryState.OPEN;
     uint256 public s_lastTimestamp;
-    uint256 public immutable i_interval;
+    uint256 public s_interval;
 
     // Events
-    event LotteryEntered(address indexed participant);
     event RequestIdCreated(uint256 indexed requestId);
     event WinnerSelected(address indexed winner, uint256 totalPrice);
 
@@ -66,7 +65,7 @@ contract Lottery is VRFConsumerBaseV2Plus, AutomationCompatibleInterface {
         i_vrfCoordinator = vrfCoordinator;
         s_keyHash = keyHash;
         s_lastTimestamp = block.timestamp;
-        i_interval = interval;
+        s_interval = interval;
         i_callbackGasLimit = callbackGasLimit;
         i_minimumEntryFees = minimumEntryFees;
     }
@@ -85,7 +84,6 @@ contract Lottery is VRFConsumerBaseV2Plus, AutomationCompatibleInterface {
         insufficientFees(msg.value)
     {
         s_participants.push(payable(msg.sender));
-        emit LotteryEntered(msg.sender);
     }
 
     /**
@@ -105,12 +103,11 @@ contract Lottery is VRFConsumerBaseV2Plus, AutomationCompatibleInterface {
         bool isOpen = s_lotteryState == LotteryState.OPEN;
         bool hasParticipants = s_participants.length > 0;
         bool hasBalance = address(this).balance > 0;
-        bool hasTimePassed = (block.timestamp - s_lastTimestamp) > i_interval;
+        bool hasTimePassed = (block.timestamp - s_lastTimestamp) > s_interval;
         upkeepNeeded = (isOpen &&
             hasParticipants &&
             hasBalance &&
             hasTimePassed);
-        return (upkeepNeeded, "0x0");
     }
 
     /**
@@ -161,6 +158,10 @@ contract Lottery is VRFConsumerBaseV2Plus, AutomationCompatibleInterface {
         emit WinnerSelected(winner, balance);
     }
 
+    function setInterval(uint256 newInterval) external onlyOwner {
+        s_interval = newInterval;
+    }
+
     // Getter Functions
     function getLastTimestamp() external view returns (uint256) {
         return s_lastTimestamp;
@@ -179,7 +180,7 @@ contract Lottery is VRFConsumerBaseV2Plus, AutomationCompatibleInterface {
     }
 
     function getInterval() external view returns (uint256) {
-        return i_interval;
+        return s_interval;
     }
 
     function getCallbackGasLimit() external view returns (uint256) {
